@@ -20,8 +20,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, LRActivity.class );
-                intent.putExtra("url1","https://pullreminders.com/installs/15793071/leaderboard?v=reviews&t%5B%5D=182191978&d=14d");
-                intent.putExtra("url2", "https://pullreminders.com/installs/15793071/leaderboard?s=comments");
+                intent.putExtra("url1","https://pullreminders.com/installs/15793071/leaderboard?d=14d&s=prs&t%5B%5D=182191978&v=reviews");
+                intent.putExtra("url2","https://pullreminders.com/installs/15793071/leaderboard?d=14d&s=comments&t%5B%5D=182191978&v=reviews");
                 startActivity(intent);
 
             }

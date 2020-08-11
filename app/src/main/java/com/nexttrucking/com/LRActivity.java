@@ -233,15 +233,14 @@ public class LRActivity extends AppCompatActivity {
                 "var style = document.createElement('style'); " +
                 "style.type = 'text/css'; " +
                 "style.innerHTML = " +css+
-                "var header = document.getElementById('header'); "+
                 "document.getElementsByTagName('th')[2].innerText = 'PRs'; "+
                 "document.getElementsByTagName('th')[3].innerText = 'CMs'; "+
                 "document.getElementsByTagName('th')[4].innerText = 'Rate'; "+
-                "header.remove(); "+
                 "parent.appendChild(style); " +
                 "})();";
         url1 = getIntent().getStringExtra("url1");
         url2 = getIntent().getStringExtra("url2");
+
         webView_left = findViewById(R.id.web_left);
         webView_right = findViewById(R.id.web_right);
 
