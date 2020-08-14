@@ -1,34 +1,37 @@
 package com.nexttrucking.com;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class BurnDownActivity extends AppCompatActivity {
+public class SonarActivity extends AppCompatActivity {
 
     private WebView webView;
     private TextView textView;
     private String title;
     private String url;
+    private String script;
 
     private Map<String, String> borndownMap = new HashMap<>();
     private int mapIdx;
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_burn_down);
+        setContentView(R.layout.activity_sonar);
         initBornDownMap();
         textView = findViewById(R.id.title);
         webView = findViewById(R.id.webview);
@@ -36,27 +39,37 @@ public class BurnDownActivity extends AppCompatActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         webView.getSettings().setSupportMultipleWindows(true);
+
+
+        script = "javascript:(function() { " +
+                "document.getElementsByClassName('layout-page-side-outer')[0].remove(); " +
+                "document.getElementById('global-navigation').remove(); " +
+                "})();";
+
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-            }
+                if (url.contains("analysis_date")) {
+                    handler.sendEmptyMessageDelayed(2, 3000);
+                }
 
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                return super.shouldOverrideUrlLoading(view, request);
+
             }
         });
 
-        new Thread(new BurnDownActivity.MyThread()).start();
+        title = (String) borndownMap.keySet().toArray()[mapIdx];
+        url = borndownMap.get(title);
+        textView.setText(title);
+        webView.loadUrl(url);
+
+        new Thread(new SonarActivity.MyThread()).start();
     }
 
     private void initBornDownMap() {
-        borndownMap.put("Hotpot Team", "https://nexttrucking.atlassian.net/secure/RapidBoard.jspa?rapidView=76&projectKey=APD&view=reporting&chart=burndownChart");
-        borndownMap.put("Spaceport Team", "https://nexttrucking.atlassian.net/secure/RapidBoard.jspa?rapidView=113&projectKey=APD&view=reporting&chart=burndownChart");
-        borndownMap.put("Omega Team", "https://nexttrucking.atlassian.net/secure/RapidBoard.jspa?rapidView=112&projectKey=APD&view=reporting&chart=burndownChart");
-        borndownMap.put("Quality Eng Team", "https://nexttrucking.atlassian.net/secure/RapidBoard.jspa?rapidView=91&projectKey=PLAT&view=reporting&chart=burndownChart");
-        borndownMap.put("Marvel Team", "https://nexttrucking.atlassian.net/secure/RapidBoard.jspa?rapidView=114&projectKey=APD&view=reporting&chart=burndownChart");
+        borndownMap.put("Hotpot Team", "https://sonar.tools.aws.nexttrucking.com/projects?sort=-analysis_date&tags=hotpot");
+        borndownMap.put("Spaceport Team", "https://sonar.tools.aws.nexttrucking.com/projects?sort=-analysis_date&tags=spaceport");
+        borndownMap.put("Omega Team", "https://sonar.tools.aws.nexttrucking.com/projects?sort=-analysis_date&tags=omega");
+        borndownMap.put("Marvel Team", "https://sonar.tools.aws.nexttrucking.com/projects?sort=-analysis_date&tags=marvel");
     }
 
 
@@ -66,9 +79,9 @@ public class BurnDownActivity extends AppCompatActivity {
             // TODO Auto-generated method stub
             while (true) {
                 try {
-                    Thread.sleep(1000 * 60 * 10);
                     Message message = new Message();
                     handler.sendMessage(message);
+                    Thread.sleep(1000 * 60);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -80,6 +93,11 @@ public class BurnDownActivity extends AppCompatActivity {
     @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
+            if (msg.what == 2) {
+                webView.loadUrl(script);
+                Log.d("NEXT", script);
+                return;
+            }
             mapIdx = mapIdx % borndownMap.size();
             title = (String) borndownMap.keySet().toArray()[mapIdx];
             url = borndownMap.get(title);
@@ -89,5 +107,7 @@ public class BurnDownActivity extends AppCompatActivity {
             Log.d("NEXT", title + " | " + url);
             super.handleMessage(msg);
         }
+
     };
+
 }

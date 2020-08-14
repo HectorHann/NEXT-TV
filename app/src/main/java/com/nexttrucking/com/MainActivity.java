@@ -8,9 +8,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-    private Button pullBt;
-    private Button burndownBt;
-    private Button grafanaBt;
+    private Button pullBt, burndownBt, grafanaBt, sonarBt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         burndownBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, BurnDownActivity.class);
+                Intent intent = new Intent(MainActivity.this, BurndownChartActivity.class);
                 startActivity(intent);
 
             }
@@ -47,7 +45,16 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        grafanaBt.callOnClick();
+
+        sonarBt = findViewById(R.id.sonar);
+        sonarBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SonarActivity.class);
+                startActivity(intent);
+
+            }
+        });
 
     }
 

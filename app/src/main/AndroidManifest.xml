@@ -16,11 +16,11 @@
         android:theme="@style/AppTheme">
         <activity android:name=".GrafanaActivity"></activity>
         <activity
-            android:name=".BurnDownActivity"
+            android:name=".SonarActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_one_area"
             android:theme="@style/FullscreenTheme" />
-        <activity android:name=".FourAreaActivity" />
+        <activity android:name=".BurndownChartActivity" />
         <activity
             android:name=".PullReminderActivity"
             android:screenOrientation="landscape" />

@@ -1,21 +1,25 @@
 package com.nexttrucking.com;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
-import android.webkit.WebChromeClient;
+import android.webkit.HttpAuthHandler;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
 public class GrafanaActivity extends AppCompatActivity {
 
     private WebView webView;
@@ -32,16 +36,33 @@ public class GrafanaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_grafana);
         initServiceMap();
         textView = findViewById(R.id.title);
-        textView.setVisibility(View.GONE);
         webView = findViewById(R.id.webview);
 
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        webView.getSettings().setSupportMultipleWindows(true);
-        webView.setWebViewClient(new WebViewClient());
-        webView.setWebChromeClient(new WebChromeClient());
+        initWebViewSettings(webView);
 
         new Thread(new GrafanaActivity.MyThread()).start();
+    }
+
+
+    private void initWebViewSettings(WebView webView) {
+        webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
+        webView.getSettings().setAllowFileAccessFromFileURLs(true);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.getSettings().setUseWideViewPort(true);
+        webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        webView.getSettings().setSupportZoom(true);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler, String host, String realm) {
+                handler.proceed("next", "7u4#3KTVUejFd00t");
+//                super.onReceivedHttpAuthRequest(view, handler, host, realm);
+            }
+        });
     }
 
     private void initServiceMap() {
@@ -57,10 +78,9 @@ public class GrafanaActivity extends AppCompatActivity {
             // TODO Auto-generated method stub
             while (true) {
                 try {
-                    Thread.sleep(1000 * 10);
                     Message message = new Message();
                     handler.sendMessage(message);
-                    return;
+                    Thread.sleep(1000 * 60);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
