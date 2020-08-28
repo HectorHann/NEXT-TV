@@ -80,7 +80,7 @@ public class GrafanaActivity extends AppCompatActivity {
                 try {
                     Message message = new Message();
                     handler.sendMessage(message);
-                    Thread.sleep(1000 * 60);
+                    Thread.sleep(1000 * 60 * 5);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
