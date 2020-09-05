@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        sonarBt.callOnClick();
+        pullBt.callOnClick();
 
     }
 

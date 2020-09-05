@@ -20,6 +20,8 @@ public class PullReminderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pull_reminder);
         css =
                 "'" +
+
+
                         "#header {\n" +
                         "    display: none;\n" +
                         "}\n" +
@@ -229,7 +231,46 @@ public class PullReminderActivity extends AppCompatActivity {
                 "document.getElementsByTagName('th')[2].innerText = 'PRs'; " +
                 "document.getElementsByTagName('th')[3].innerText = 'CMs'; " +
                 "document.getElementsByTagName('th')[4].innerText = 'Rate'; " +
+
+
+                "const users = document.getElementById('main').getElementsByClassName('user');\n" +
+                "const nameMap = {\n" +
+                "  'HectorHann':'Hector',\n" +
+                "  'helloworld-Andrew':'Andrew',\n" +
+                "  'phuud':'Luke',\n" +
+                "  'richard-li-next':'Richard',\n" +
+                "  'kaylazl':'Kayla',\n" +
+                "  'MikeNextTrucking':'Mike',\n" +
+                "  'BarryLiii':'Barry',\n" +
+                "  'Michael-crazyman':'Michael',\n" +
+                "  'cj768025549':'Tiny',\n" +
+                "  'WinterGou':'Winter',\n" +
+                "  'visonalhal':'Halvin',\n" +
+                "  'Gordon-Xu':'Gordon',\n" +
+                "  'Rey-Wang':'Rey',\n" +
+                "  'huqiaohua':'Alice',\n" +
+                "  'Norman-else':'Norman',\n" +
+                "  'samsuse':'Sam',\n" +
+                "  'amyyangyang':'Amy',\n" +
+                "  'Alvin-MXK':'Max',\n" +
+                "  'billyhanyulong':'Billy',\n" +
+                "  'RyanZheng1':'Ryan',\n" +
+                "  'vincent-du-dev':'Vincent',\n" +
+                "  'IlluYing':'Illu',\n" +
+                "  'Noodles-Wang':'Noodles'\n" +
+                "};\n" +
+                "for(let i=0;i<users.length;i++){\n" +
+                "  const name = users[i].innerText;\n" +
+                "  if(nameMap[name]) {\n" +
+                "    users[i].innerHTML = users[i].innerHTML.replace(name, nameMap[name]);\n" +
+                "  }\n" +
+                "}" +
+
+                "\n" +
+
                 "parent.appendChild(style); " +
+
+
                 "})();";
         url1 = getIntent().getStringExtra("url1");
         url2 = getIntent().getStringExtra("url2");
