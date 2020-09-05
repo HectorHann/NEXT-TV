@@ -66,24 +66,23 @@ public class PullReminderActivity extends AppCompatActivity {
                         "}\n" +
                         "\n" +
                         ".section-leaderboard .leaderboard table tr .rank {\n" +
-                        "    font-size: 20px;\n" +
+                        "    font-size: 25px;\n" +
                         "}\n" +
                         "\n" +
                         "\n" +
                         ".section-leaderboard .leaderboard table tr:nth-child(1) .user {\n" +
-                        "    margin-left: -15px;\n" +
-                        "    margin-bottom: 5px;\n" +
-                        "    font-size: 20px;\n" +
+                        "    margin-left: -25px;\n" +
+                        "    font-size: 40px;\n" +
                         "    font-weight: bold;\n" +
                         "}\n" +
                         "\n" +
                         "\n" +
                         ".section-leaderboard .leaderboard table tr:nth-child(1) .user .avatar {\n" +
-                        "    width: 30px;\n" +
-                        "    height: 30px;\n" +
-                        "    border-radius: 10px;\n" +
+                        "    width: 46px;\n" +
+                        "    height: 46px;\n" +
+                        "    border-radius: 23px;\n" +
                         "    border: solid 1px #ffffff;\n" +
-                        "    margin-right: 10px;\n" +
+                        "    margin-right: 15px;\n" +
                         "    -webkit-animation: neon-organge-box 1s ease-in-out infinite alternate;\n" +
                         "    -moz-animation: neon-organge-box 1s ease-in-out infinite alternate;\n" +
                         "    animation: neon-organge-box 1s ease-in-out infinite alternate;\n" +
@@ -102,16 +101,16 @@ public class PullReminderActivity extends AppCompatActivity {
                         "}\n" +
                         "\n" +
                         ".section-leaderboard .leaderboard table tr th.metric {\n" +
-                        "    padding: 1em 0 1em 15px;\n" +
-                        "    font-size: 15px;\n" +
+                        "    padding: 0.285em 0 0.1em 25px;\n" +
+                        "    font-size: 13px;\n" +
                         "}\n" +
                         ".section-leaderboard .leaderboard table tr th:nth-child(2) {\n" +
-                        "    padding: 1em 0 1em 15px;\n" +
+                        "    padding: 0.1em 0 0.1em 25px;\n" +
                         "    font-size: 15px;\n" +
                         "}\n" +
                         "\n" +
                         ".section-leaderboard .leaderboard table tr td.metric {\n" +
-                        "    font-size: 25px;\n" +
+                        "    font-size: 35px;\n" +
                         "    font-family:Iceland;\n" +
                         "    text-align: center!important;\n" +
                         "    padding: 0.0em 0;\n" +
@@ -126,8 +125,8 @@ public class PullReminderActivity extends AppCompatActivity {
                         "\n" +
                         ".section-leaderboard .leaderboard table tr td.user {\n" +
                         "    margin-left: 10px;\n" +
-                        "    padding: 0.55em 0;\n" +
-                        "    font-size: 26px;\n" +
+                        "    padding: 0.45em 0;\n" +
+                        "    font-size: 30px;\n" +
                         "    white-space: nowrap;\n" +
                         "    max-width: 220px;\n" +
                         "    text-align: left;\n" +
@@ -138,10 +137,10 @@ public class PullReminderActivity extends AppCompatActivity {
                         "}\n" +
                         "\n" +
                         ".section-leaderboard .leaderboard table tr td.user .avatar {\n" +
-                        "    width: 25px;\n" +
-                        "    height: 25px;\n" +
+                        "    width: 32px;\n" +
+                        "    height: 32px;\n" +
                         "    margin-right: 0.3em;\n" +
-                        "    border-radius: 10px;\n" +
+                        "    border-radius: 16px;\n" +
                         "    white-space: nowrap;\n" +
                         "}\n" +
                         "\n" +
@@ -166,11 +165,16 @@ public class PullReminderActivity extends AppCompatActivity {
                         "\n" +
                         ".section-leaderboard .leaderboard table tr th.metric:nth-last-child(1) {\n" +
                         "    padding-right: 2.5em;\n" +
-                        "    margin-left: -5px;\n" +
+                        "    margin-left: -40px;\n" +
+                        "    padding-right: 1.5em;\n" +
+                        "    margin-left: 0px;\n" +
                         "}\n" +
                         "\n" +
                         ".section-leaderboard .leaderboard table tr td.metric:last-child {\n" +
                         "    padding-right: 0.2em;\n" +
+                        "    margin-left: -40px;\n" +
+                        "    padding-right: 0em;\n" +
+                        "    margin-left: 0px;\n" +
                         "}\n" +
                         "\n" +
                         "\n" +
