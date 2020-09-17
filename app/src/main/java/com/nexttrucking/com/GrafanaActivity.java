@@ -26,7 +26,7 @@ public class GrafanaActivity extends AppCompatActivity {
     private TextView textView;
     private String title;
     private String url;
-
+    private String script, css;
     private Map<String, String> serviceMap = new HashMap<>();
     private int mapIdx;
 
@@ -37,6 +37,33 @@ public class GrafanaActivity extends AppCompatActivity {
         initServiceMap();
         textView = findViewById(R.id.title);
         webView = findViewById(R.id.webview);
+
+
+        css = "'" +
+                ".graph-legend{\n" +
+                "    display:none;\n" +
+                "}\n" +
+                ".react-grid-item{\n" +
+                "height:300px;\n" +
+                "}\n" +
+                ".panel-container{\n" +
+                "height:220px;\n" +
+                "}\n" +
+                ".react-grid-layout .react-grid-item:nth-child(4) .panel-container,\n" +
+                ".react-grid-layout .react-grid-item:nth-child(5) .panel-container,\n" +
+                ".react-grid-layout .react-grid-item:nth-child(6) .panel-container{\n" +
+                "    margin-top: -110px;\n" +
+                "}" +
+                "'; ";
+
+        script = "javascript:(function() { " +
+                "var parent = document.getElementsByTagName('head').item(0); " +
+                "var style = document.createElement('style'); " +
+                "style.type = 'text/css'; " +
+                "style.innerHTML = " + css +
+                "parent.appendChild(style); " +
+                "})();";
+
 
         initWebViewSettings(webView);
 
@@ -61,6 +88,11 @@ public class GrafanaActivity extends AppCompatActivity {
             public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler, String host, String realm) {
                 handler.proceed("next", "7u4#3KTVUejFd00t");
 //                super.onReceivedHttpAuthRequest(view, handler, host, realm);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                view.loadUrl(script);
             }
         });
     }
@@ -93,6 +125,7 @@ public class GrafanaActivity extends AppCompatActivity {
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             mapIdx = mapIdx % serviceMap.size();
+            mapIdx++;
             title = (String) serviceMap.keySet().toArray()[mapIdx];
             url = serviceMap.get(title);
             mapIdx++;
