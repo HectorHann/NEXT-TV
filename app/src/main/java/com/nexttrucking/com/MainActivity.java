@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        grafanaBt.callOnClick();
+        sonarBt.callOnClick();
 
     }
 

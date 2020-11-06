@@ -128,7 +128,7 @@ public class SonarActivity extends AppCompatActivity {
                 try {
                     Message message = new Message();
                     handler.sendMessage(message);
-                    Thread.sleep(1000 * 60);
+                    Thread.sleep(1000 * 60 * 3);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
