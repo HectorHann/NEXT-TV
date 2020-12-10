@@ -1,5 +1,6 @@
 package com.nexttrucking.com;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -315,7 +316,10 @@ public class PullReminderActivity extends AppCompatActivity {
             // TODO Auto-generated method stub
             while (true) {
                 try {
-                    Thread.sleep(1000 * 60 * 10);
+                    Thread.sleep(1000 * 60 * 2);
+                    Intent intent = new Intent(PullReminderActivity.this, KibanaActivity.class);
+                    startActivity(intent);
+                    PullReminderActivity.this.finish();
                     Message message = new Message();
                     handler.sendMessage(message);
                 } catch (InterruptedException e) {

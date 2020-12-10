@@ -9,7 +9,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-    private Button pullBt, burndownBt, grafanaBt, sonarBt, settingBt;
+    private Button pullBt, burndownBt, grafanaBt, sonarBt, kibanaBt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,15 +57,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        settingBt = findViewById(R.id.setting);
-        settingBt.setOnClickListener(new View.OnClickListener() {
+        kibanaBt = findViewById(R.id.kibana);
+        kibanaBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                Intent intent = new Intent(MainActivity.this, KibanaActivity.class);
                 startActivity(intent);
             }
         });
-        sonarBt.callOnClick();
+        kibanaBt.callOnClick();
 
     }
 

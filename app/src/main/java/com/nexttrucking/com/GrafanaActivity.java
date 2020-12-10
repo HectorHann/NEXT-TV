@@ -125,7 +125,6 @@ public class GrafanaActivity extends AppCompatActivity {
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             mapIdx = mapIdx % serviceMap.size();
-            mapIdx++;
             title = (String) serviceMap.keySet().toArray()[mapIdx];
             url = serviceMap.get(title);
             mapIdx++;

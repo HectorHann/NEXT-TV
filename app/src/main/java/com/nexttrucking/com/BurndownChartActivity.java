@@ -22,8 +22,6 @@ import java.util.Map;
 public class BurndownChartActivity extends AppCompatActivity {
     private WebView webView1, webView2, webView3, webView4;
     private TextView textView1, textView2, textView3, textView4;
-    private String title1, title2, title3, title4;
-    private String url1, url2, url3, url4;
     private String script;
     private Map<String, String> borndownMap = new HashMap<>();
     private int mapIdx = 0;
