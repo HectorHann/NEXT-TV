@@ -133,10 +133,8 @@ public class SonarActivity extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 if (url.contains("analysis_date")) {
-                    handler.sendEmptyMessageDelayed(2, 6000);
+                    webView.loadUrl(script);
                 }
-
-
             }
         });
     }
@@ -150,7 +148,7 @@ public class SonarActivity extends AppCompatActivity {
                 try {
                     Message message = new Message();
                     handler.sendMessage(message);
-                    Thread.sleep(1000 * 60 * 10);
+                    Thread.sleep(1000 * 60 * 5);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

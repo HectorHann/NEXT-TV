@@ -29,19 +29,19 @@ public class GrafanaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sonar);
+        setContentView(R.layout.activity_grafana);
         initViews();
         initDataMap();
         initScript();
 
         loadUrls();
 
-        new Thread(new GrafanaActivity.MyThread()).start();
+//        new Thread(new GrafanaActivity.MyThread()).start();
     }
 
 
     private void initDataMap() {
-        dataMap.put(null, "https://svcs.us-west-2.prod.aws.nexttrucking.com/grafana/d/YHDY1YaMk/duration-and-error?orgId=1&refresh=5m");
+        dataMap.put(null, "https://svcs.us-west-2.prod.aws.nexttrucking.com/grafana/d/YHDY1YaMk/duration-and-error?orgId=1&refresh=5m&from=now-24h&to=now");
     }
 
 
@@ -147,7 +147,7 @@ public class GrafanaActivity extends AppCompatActivity {
                 try {
                     Message message = new Message();
                     handler.sendMessage(message);
-                    Thread.sleep(1000 * 60 * 10);
+                    Thread.sleep(1000 * 60 * 5);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
