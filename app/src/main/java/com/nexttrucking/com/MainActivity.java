@@ -2,7 +2,6 @@ package com.nexttrucking.com;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 
@@ -20,8 +19,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, PullReminderActivity.class);
-                intent.putExtra("url1", "https://pullreminders.com/installs/15793071/leaderboard?d=14d&s=prs&t%5B%5D=182191978&v=reviews");
-                intent.putExtra("url2", "https://pullreminders.com/installs/15793071/leaderboard?d=14d&s=comments&t%5B%5D=182191978&v=reviews");
                 startActivity(intent);
 
             }
@@ -65,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
         kibanaBt.callOnClick();
 
     }

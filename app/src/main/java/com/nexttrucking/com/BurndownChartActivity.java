@@ -6,14 +6,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.View;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.nexttrucking.com.helpers.WebViewHelper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,34 +23,44 @@ public class BurndownChartActivity extends AppCompatActivity {
     private WebView webView1, webView2, webView3, webView4;
     private TextView textView1, textView2, textView3, textView4;
     private String script;
-    private Map<String, String> borndownMap = new HashMap<>();
+    private Map<String, String> dataMap = new HashMap<>();
     private int mapIdx = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_burndown_chart);
-        initBornDownMap();
-        initScript();
         initViews();
-        loadBornDownUrl();
+        initDataMap();
+        initScript();
+
+        loadUrls();
 
         new Thread(new BurndownChartActivity.MyThread()).start();
     }
 
 
-    private void loadBornDownUrl() {
-        loadBornDownUrl(webView1, textView1);
-        loadBornDownUrl(webView2, textView2);
-        loadBornDownUrl(webView3, textView3);
-        loadBornDownUrl(webView4, textView4);
+    private void initDataMap() {
+        dataMap.put("Hotpot Team", "https://nexttrucking.atlassian.net/secure/RapidBoard.jspa?rapidView=76&projectKey=APD&view=reporting&chart=burndownChart");
+        dataMap.put("Spaceport Team", "https://nexttrucking.atlassian.net/secure/RapidBoard.jspa?rapidView=113&projectKey=APD&view=reporting&chart=burndownChart");
+        dataMap.put("Omega Team", "https://nexttrucking.atlassian.net/secure/RapidBoard.jspa?rapidView=112&projectKey=APD&view=reporting&chart=burndownChart");
+        dataMap.put("Quality Eng Team", "https://nexttrucking.atlassian.net/secure/RapidBoard.jspa?rapidView=91&projectKey=PLAT&view=reporting&chart=burndownChart");
+        dataMap.put("Marvel Team", "https://nexttrucking.atlassian.net/secure/RapidBoard.jspa?rapidView=114&projectKey=APD&view=reporting&chart=burndownChart");
     }
 
 
-    private void loadBornDownUrl(WebView webView, TextView textView) {
-        mapIdx = mapIdx % borndownMap.size();
-        String title = (String) borndownMap.keySet().toArray()[mapIdx];
-        String url = borndownMap.get(title);
+    private void loadUrls() {
+        loadTitleAndUrl(webView1, textView1);
+        loadTitleAndUrl(webView2, textView2);
+        loadTitleAndUrl(webView3, textView3);
+        loadTitleAndUrl(webView4, textView4);
+    }
+
+
+    private void loadTitleAndUrl(WebView webView, TextView textView) {
+        mapIdx = mapIdx % dataMap.size();
+        String title = (String) dataMap.keySet().toArray()[mapIdx];
+        String url = dataMap.get(title);
         mapIdx++;
 
         textView.setText(title);
@@ -58,14 +68,6 @@ public class BurndownChartActivity extends AppCompatActivity {
         Log.d("NEXT", title + " | " + url);
     }
 
-
-    private void initBornDownMap() {
-        borndownMap.put("Hotpot Team", "https://nexttrucking.atlassian.net/secure/RapidBoard.jspa?rapidView=76&projectKey=APD&view=reporting&chart=burndownChart");
-        borndownMap.put("Spaceport Team", "https://nexttrucking.atlassian.net/secure/RapidBoard.jspa?rapidView=113&projectKey=APD&view=reporting&chart=burndownChart");
-        borndownMap.put("Omega Team", "https://nexttrucking.atlassian.net/secure/RapidBoard.jspa?rapidView=112&projectKey=APD&view=reporting&chart=burndownChart");
-        borndownMap.put("Quality Eng Team", "https://nexttrucking.atlassian.net/secure/RapidBoard.jspa?rapidView=91&projectKey=PLAT&view=reporting&chart=burndownChart");
-        borndownMap.put("Marvel Team", "https://nexttrucking.atlassian.net/secure/RapidBoard.jspa?rapidView=114&projectKey=APD&view=reporting&chart=burndownChart");
-    }
 
     private void initScript() {
         script = "javascript:(function() { " +
@@ -81,18 +83,6 @@ public class BurndownChartActivity extends AppCompatActivity {
         Log.d("NEXT", script);
     }
 
-    private void initWebViewSettings(WebView webView) {
-        webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
-        webView.getSettings().setAllowFileAccessFromFileURLs(true);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
-        webView.getSettings().setDomStorageEnabled(true);
-        webView.getSettings().setUseWideViewPort(true);
-        webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-        webView.getSettings().setSupportZoom(true);
-        webView.getSettings().setLoadWithOverviewMode(true);
-    }
 
     private void initViews() {
         webView1 = findViewById(R.id.web_left1);
@@ -105,10 +95,11 @@ public class BurndownChartActivity extends AppCompatActivity {
         textView3 = findViewById(R.id.title_left2);
         textView4 = findViewById(R.id.title_right2);
 
-        initWebViewSettings(webView1);
-        initWebViewSettings(webView2);
-        initWebViewSettings(webView3);
-        initWebViewSettings(webView4);
+        WebViewHelper.setCustomWebView(webView1, this);
+        WebViewHelper.setCustomWebView(webView2, this);
+        WebViewHelper.setCustomWebView(webView3, this);
+        WebViewHelper.setCustomWebView(webView4, this);
+
 
         webView1.setWebViewClient(new WebViewClient() {
             @Override
@@ -167,7 +158,7 @@ public class BurndownChartActivity extends AppCompatActivity {
     @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
-            loadBornDownUrl();
+            loadUrls();
             super.handleMessage(msg);
         }
 

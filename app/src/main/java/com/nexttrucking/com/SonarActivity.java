@@ -13,34 +13,60 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.nexttrucking.com.helpers.WebViewHelper;
+
 import java.util.HashMap;
 import java.util.Map;
 
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
 public class SonarActivity extends AppCompatActivity {
-
     private WebView webView;
     private TextView textView;
-    private String title;
-    private String url;
-    private String script, css;
+    private String script;
+    private Map<String, String> dataMap = new HashMap<>();
+    private int mapIdx = 0;
 
-    private Map<String, String> borndownMap = new HashMap<>();
-    private int mapIdx;
-
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sonar);
-        initBornDownMap();
-        textView = findViewById(R.id.title);
-        webView = findViewById(R.id.webview);
+        initViews();
+        initDataMap();
+        initScript();
 
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        webView.getSettings().setSupportMultipleWindows(true);
+        loadUrls();
 
-        css = "'" +
+        new Thread(new SonarActivity.MyThread()).start();
+    }
+
+
+    private void initDataMap() {
+        dataMap.put("Hotpot Team", "https://sonar.tools.aws.nexttrucking.com/projects?sort=-analysis_date&tags=hotpot");
+        dataMap.put("Spaceport Team", "https://sonar.tools.aws.nexttrucking.com/projects?sort=-analysis_date&tags=spaceport");
+        dataMap.put("Omega Team", "https://sonar.tools.aws.nexttrucking.com/projects?sort=-analysis_date&tags=omega");
+        dataMap.put("Marvel Team", "https://sonar.tools.aws.nexttrucking.com/projects?sort=-analysis_date&tags=marvel");
+    }
+
+
+    private void loadUrls() {
+        loadTitleAndUrl(webView, textView);
+    }
+
+
+    private void loadTitleAndUrl(WebView webView, TextView textView) {
+        mapIdx = mapIdx % dataMap.size();
+        String title = (String) dataMap.keySet().toArray()[mapIdx];
+        String url = dataMap.get(title);
+        mapIdx++;
+
+        textView.setText(title);
+        webView.loadUrl(url);
+        Log.d("NEXT", title + " | " + url);
+    }
+
+
+    private void initScript() {
+        String css = "'" +
                 ".boxed-group-inner{\n" +
                 "    padding: 0 15px 10px 0;\n" +
                 "}\n" +
@@ -92,6 +118,16 @@ public class SonarActivity extends AppCompatActivity {
                 "parent.appendChild(style); " +
                 "})();";
 
+        Log.d("NEXT", script);
+    }
+
+
+    private void initViews() {
+        textView = findViewById(R.id.title);
+        webView = findViewById(R.id.webview);
+
+        WebViewHelper.setCustomWebView(webView, this);
+
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
@@ -103,20 +139,6 @@ public class SonarActivity extends AppCompatActivity {
 
             }
         });
-
-        title = (String) borndownMap.keySet().toArray()[mapIdx];
-        url = borndownMap.get(title);
-        textView.setText(title);
-        webView.loadUrl(url);
-
-        new Thread(new SonarActivity.MyThread()).start();
-    }
-
-    private void initBornDownMap() {
-        borndownMap.put("Hotpot Team", "https://sonar.tools.aws.nexttrucking.com/projects?sort=-analysis_date&tags=hotpot");
-        borndownMap.put("Spaceport Team", "https://sonar.tools.aws.nexttrucking.com/projects?sort=-analysis_date&tags=spaceport");
-        borndownMap.put("Omega Team", "https://sonar.tools.aws.nexttrucking.com/projects?sort=-analysis_date&tags=omega");
-        borndownMap.put("Marvel Team", "https://sonar.tools.aws.nexttrucking.com/projects?sort=-analysis_date&tags=marvel");
     }
 
 
@@ -128,7 +150,7 @@ public class SonarActivity extends AppCompatActivity {
                 try {
                     Message message = new Message();
                     handler.sendMessage(message);
-                    Thread.sleep(1000 * 60 * 3);
+                    Thread.sleep(1000 * 60 * 10);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -140,21 +162,9 @@ public class SonarActivity extends AppCompatActivity {
     @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
-            if (msg.what == 2) {
-                webView.loadUrl(script);
-                Log.d("NEXT", script);
-                return;
-            }
-            mapIdx = mapIdx % borndownMap.size();
-            title = (String) borndownMap.keySet().toArray()[mapIdx];
-            url = borndownMap.get(title);
-            mapIdx++;
-            textView.setText(title);
-            webView.loadUrl(url);
-            Log.d("NEXT", title + " | " + url);
+            loadUrls();
             super.handleMessage(msg);
         }
 
     };
-
 }

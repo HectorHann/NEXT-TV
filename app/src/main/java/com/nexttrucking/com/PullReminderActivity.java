@@ -1,6 +1,6 @@
 package com.nexttrucking.com;
 
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,7 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class PullReminderActivity extends AppCompatActivity {
 
-    private String url1, url2;
+    private String url1 = "https://pullreminders.com/installs/15793071/leaderboard?d=14d&s=prs&t%5B%5D=182191978&v=reviews";
+    private String url2 = "https://pullreminders.com/installs/15793071/leaderboard?d=14d&s=comments&t%5B%5D=182191978&v=reviews";
     private WebView webView_left, webView_right;
     private String css, script;
 
@@ -19,6 +20,7 @@ public class PullReminderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pull_reminder);
+
         css =
                 "'" +
 
@@ -277,8 +279,6 @@ public class PullReminderActivity extends AppCompatActivity {
 
 
                 "})();";
-        url1 = getIntent().getStringExtra("url1");
-        url2 = getIntent().getStringExtra("url2");
 
         webView_left = findViewById(R.id.web_left);
         webView_right = findViewById(R.id.web_right);
@@ -316,10 +316,7 @@ public class PullReminderActivity extends AppCompatActivity {
             // TODO Auto-generated method stub
             while (true) {
                 try {
-                    Thread.sleep(1000 * 60 * 2);
-                    Intent intent = new Intent(PullReminderActivity.this, KibanaActivity.class);
-                    startActivity(intent);
-                    PullReminderActivity.this.finish();
+                    Thread.sleep(1000 * 60 * 10);
                     Message message = new Message();
                     handler.sendMessage(message);
                 } catch (InterruptedException e) {
@@ -330,6 +327,7 @@ public class PullReminderActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             webView_left.loadUrl(url1);
