@@ -1,30 +1,65 @@
 package com.nexttrucking.com;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class PullReminderActivity extends AppCompatActivity {
+import com.nexttrucking.com.helpers.WebViewHelper;
 
-    private String url1 = "https://pullreminders.com/installs/15793071/leaderboard?d=14d&s=prs&t%5B%5D=182191978&v=reviews";
-    private String url2 = "https://pullreminders.com/installs/15793071/leaderboard?d=14d&s=comments&t%5B%5D=182191978&v=reviews";
+import java.util.HashMap;
+import java.util.Map;
+
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+public class PullReminderActivity extends AppCompatActivity {
     private WebView webView_left, webView_right;
-    private String css, script;
+    private String script;
+    private Map<String, String> dataMap = new HashMap<>();
+    private int mapIdx = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pull_reminder);
+        initViews();
+        initDataMap();
+        initScript();
 
-        css =
+        loadUrls();
+
+        new Thread(new PullReminderActivity.MyThread()).start();
+    }
+
+
+    private void initDataMap() {
+
+        dataMap.put("URL1", "https://pullreminders.com/installs/15793071/leaderboard?d=14d&s=prs&t%5B%5D=182191978&v=reviews");
+        dataMap.put("URL2", "https://pullreminders.com/installs/15793071/leaderboard?d=14d&s=comments&t%5B%5D=182191978&v=reviews");
+    }
+
+
+    private void loadUrls() {
+        loadTitleAndUrl(webView_left, dataMap.get("URL1"));
+        loadTitleAndUrl(webView_right, dataMap.get("URL2"));
+    }
+
+
+    private void loadTitleAndUrl(WebView webView, String url) {
+        webView.loadUrl(url);
+        Log.d("NEXT", url);
+    }
+
+
+    private void initScript() {
+        String css =
                 "'" +
-
-
                         "#header {\n" +
                         "    display: none;\n" +
                         "}\n" +
@@ -279,33 +314,30 @@ public class PullReminderActivity extends AppCompatActivity {
 
 
                 "})();";
+        Log.d("NEXT", script);
+    }
 
+
+    private void initViews() {
         webView_left = findViewById(R.id.web_left);
         webView_right = findViewById(R.id.web_right);
 
-        webView_left.getSettings().setJavaScriptEnabled(true);
-        webView_left.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        webView_left.getSettings().setSupportMultipleWindows(true);
+        WebViewHelper.setCustomWebView(webView_left, this);
+        WebViewHelper.setCustomWebView(webView_right, this);
+
+
         webView_left.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
                 view.loadUrl(script);
             }
         });
-        webView_left.loadUrl(url1);
-
-        webView_right.getSettings().setJavaScriptEnabled(true);
-        webView_right.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        webView_right.getSettings().setSupportMultipleWindows(true);
         webView_right.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
                 view.loadUrl(script);
             }
         });
-        webView_right.loadUrl(url2);
-
-        new Thread(new MyThread()).start();
 
     }
 
@@ -316,9 +348,9 @@ public class PullReminderActivity extends AppCompatActivity {
             // TODO Auto-generated method stub
             while (true) {
                 try {
-                    Thread.sleep(1000 * 60 * 10);
                     Message message = new Message();
                     handler.sendMessage(message);
+                    Thread.sleep(1000 * 60 * 10);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -330,10 +362,9 @@ public class PullReminderActivity extends AppCompatActivity {
     @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
-            webView_left.loadUrl(url1);
-            webView_right.loadUrl(url2);
+            loadUrls();
             super.handleMessage(msg);
         }
-    };
 
+    };
 }
