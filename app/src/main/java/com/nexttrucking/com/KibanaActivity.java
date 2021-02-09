@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.View;
 import android.webkit.HttpAuthHandler;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
@@ -108,9 +110,9 @@ public class KibanaActivity extends AppCompatActivity {
         webView3 = findViewById(R.id.web_left2);
         webView4 = findViewById(R.id.web_right2);
 
-//        webView2.setVisibility(View.GONE);
-//        webView3.setVisibility(View.GONE);
-//        webView4.setVisibility(View.GONE);
+        webView2.setVisibility(View.GONE);
+        webView3.setVisibility(View.GONE);
+        webView4.setVisibility(View.GONE);
 
         textView1 = findViewById(R.id.title_left1);
         textView2 = findViewById(R.id.title_right1);
@@ -133,6 +135,9 @@ public class KibanaActivity extends AppCompatActivity {
                 view.loadUrl(script);
             }
         });
+
+        webView1.setWebChromeClient(new WebChromeClient());
+
         webView2.setWebViewClient(new WebViewClient() {
             public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler, String host, String realm) {
                 handler.proceed(Accounts.USERNAME, Accounts.PASSWORD);

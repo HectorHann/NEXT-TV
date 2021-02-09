@@ -20,6 +20,7 @@ public class WebViewHelper {
 
         webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
         webView.getSettings().setAllowFileAccessFromFileURLs(true);
+        webView.getSettings().setAllowFileAccess(true);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         webView.getSettings().setDomStorageEnabled(true);
@@ -27,7 +28,17 @@ public class WebViewHelper {
         webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webView.getSettings().setSupportZoom(true);
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setDisplayZoomControls(true);
         webView.getSettings().setLoadWithOverviewMode(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
+        }
+        webView.getSettings().setAppCacheEnabled(true);
+        webView.getSettings().setLoadsImagesAutomatically(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
 
 
         WebSettings ws = webView.getSettings();
