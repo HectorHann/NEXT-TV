@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        kibanaBt.callOnClick();
+        burndownBt.callOnClick();
 
     }
 

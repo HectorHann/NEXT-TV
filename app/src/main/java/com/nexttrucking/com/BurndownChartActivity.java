@@ -89,9 +89,6 @@ public class BurndownChartActivity extends AppCompatActivity {
         webView2 = findViewById(R.id.web_right1);
         webView3 = findViewById(R.id.web_left2);
         webView4 = findViewById(R.id.web_right2);
-//        webView2.setVisibility(View.GONE);
-//        webView3.setVisibility(View.GONE);
-//        webView4.setVisibility(View.GONE);
 
         textView1 = findViewById(R.id.title_left1);
         textView2 = findViewById(R.id.title_right1);

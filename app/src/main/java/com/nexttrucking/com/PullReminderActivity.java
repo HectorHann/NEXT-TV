@@ -299,6 +299,8 @@ public class PullReminderActivity extends AppCompatActivity {
                 "  'RyanZheng1':'Ryan',\n" +
                 "  'vincent-du-dev':'Vincent',\n" +
                 "  'IlluYing':'Illu',\n" +
+                "  'JasonNoob':'Jason',\n" +
+                "  'lipper-li':'Lipper',\n" +
                 "  'Noodles-Wang':'Noodles'\n" +
                 "};\n" +
                 "for(let i=0;i<users.length;i++){\n" +
