@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        burndownBt.callOnClick();
+        grafanaBt.callOnClick();
 
     }
 
